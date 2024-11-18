@@ -49,6 +49,8 @@
 
 #include "CommonLib/dtrace_buffer.h"
 
+#include "TimeProfiler.h"
+
 #include <stdio.h>
 #include <cmath>
 #include <algorithm>
@@ -3388,6 +3390,13 @@ void EncCu::xCheckRDCostIBCMode(CodingStructure *&tempCS, CodingStructure *&best
 
 void EncCu::xCheckRDCostInter( CodingStructure *&tempCS, CodingStructure *&bestCS, Partitioner &partitioner, const EncTestMode& encTestMode )
 {
+
+  TimeProfiler::start(INTER_OVERALL);
+  
+  STAGE interStage = (STAGE) partitioner.currQtDepth;
+  TimeProfiler::start(interStage);
+  
+
   const EncType encType = dynamic_cast<EncLib*>(m_pcEncCfg)->getEncType();
   if (m_pcEncCfg->getDPF() && encType == ENC_PRE)
   {
@@ -3572,6 +3581,10 @@ void EncCu::xCheckRDCostInter( CodingStructure *&tempCS, CodingStructure *&bestC
   {
     xCalDebCost( *bestCS, partitioner );
   }
+
+  TimeProfiler::stop(interStage);
+  TimeProfiler::stop(INTER_OVERALL);
+
 }
 
 bool EncCu::xCheckRDCostInterAmvr(CodingStructure *&tempCS, CodingStructure *&bestCS, Partitioner &partitioner,

@@ -9,6 +9,7 @@
 #include <array>
 #include <vector>
 #include <chrono>
+#include <map>
 
 enum STAGE {  
   QT_LEVEL_0 = 0,
@@ -16,8 +17,8 @@ enum STAGE {
   QT_LEVEL_2 = 2,
   QT_LEVEL_3 = 3,
   QT_LEVEL_4 = 4,
-  QT_LEVEL_5 = 5,
-  INTER_OVERALL = 6,
+  INTER_OVERALL = 5,
+  ENCODER_OVERALL = 6,
 
   NUM_STAGES = 7
 };
@@ -29,11 +30,10 @@ typedef std::chrono::duration<double, rep> duration;
 
 class TimeProfiler {  
 
-  private:
-    static std::vector<time_point> previous;
-
   public:
+    static std::vector<time_point> previous;
     static std::vector<duration> durations;
+    static std::map<STAGE, std::string> stageToString;
 
     static void init();
     static void start( STAGE s );

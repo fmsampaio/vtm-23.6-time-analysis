@@ -110,7 +110,7 @@ int main(int argc, char* argv[])
 {
 
   TimeProfiler::init();
-  TimeProfiler::start(INTER_OVERALL);
+  TimeProfiler::start(ENCODER_OVERALL);
 
   // print information
   fprintf( stdout, "\n" );
@@ -417,7 +417,7 @@ int main(int argc, char* argv[])
          encTime / 1000.0);
 #endif
 
-  TimeProfiler::stop(INTER_OVERALL);
+  TimeProfiler::stop(ENCODER_OVERALL);
   TimeProfiler::report();
 
   return 0;
