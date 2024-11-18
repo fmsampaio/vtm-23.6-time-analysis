@@ -36,6 +36,7 @@ class TimeProfiler {
     static std::vector<duration> durations;
     static std::vector<int> calls;
     static std::map<STAGE, std::string> stageToString;
+    static std::string reportFileName;
 
     static void init();
     static void start( STAGE s );

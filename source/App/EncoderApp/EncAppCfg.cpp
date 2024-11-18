@@ -51,6 +51,7 @@
 
 #include "CommonLib/dtrace_next.h"
 #include "CommonLib/ProfileTierLevel.h"
+#include "CommonLib/TimeProfiler.h"
 
 #define MACRO_TO_STRING_HELPER(val) #val
 #define MACRO_TO_STRING(val) MACRO_TO_STRING_HELPER(val)
@@ -1798,6 +1799,13 @@ bool EncAppCfg::parseCfg( int argc, char* argv[] )
     ("LastValidFrame",               m_lastValidFrame,                                  MAX_INT, "Last valid frame")
     ("TemporalFilterStrengthFrame*", m_gopBasedTemporalFilterStrengths, std::map<int, double>(), "Strength for every * frame in GOP based temporal filter, where * is an integer."
                                                                                                                   " E.g. --TemporalFilterStrengthFrame8 0.95 will enable GOP based temporal filter at every 8th frame with strength 0.95");
+
+#if ENABLE_TIME_PROFILE
+  opts.addOptions()
+    ("TimeProfileFileName,-tpfn",                     TimeProfiler::reportFileName,      std::string("time_profile.csv"), "File name for time profile report output [default: time_profile.csv]")
+  ;
+#endif
+
   // clang-format on
 
 #if EXTENSION_360_VIDEO

@@ -3,6 +3,7 @@
 std::vector<time_point> TimeProfiler::previous;
 std::vector<duration> TimeProfiler::durations;
 std::vector<int> TimeProfiler::calls;
+std::string TimeProfiler::reportFileName;
 
 std::map<STAGE, std::string> TimeProfiler::stageToString;
 
@@ -37,7 +38,7 @@ void TimeProfiler::stop( STAGE s ) {
 
 void TimeProfiler::report() {
     std::ofstream reportFp;
-    reportFp.open("time_profie.csv");
+    reportFp.open(reportFileName.c_str());
 
     reportFp << "Stage;Calls;Time(ms);TimePerCall(ms)\n";
     for( size_t i = 0; i < NUM_STAGES; ++i ) {
@@ -46,5 +47,5 @@ void TimeProfiler::report() {
         reportFp << stageToString[s] << ";" << calls[s] << ";" << duration << ";" << (duration / calls[i]) << std::endl;
     }
     reportFp.close();
-    
+
 }
