@@ -43,6 +43,7 @@
 #include "EncoderLib/EncLibCommon.h"
 #include "EncApp.h"
 #include "Utilities/program_options_lite.h"
+#include "CommonLib/TimeProfiler.h"
 
 //! \ingroup EncoderApp
 //! \{
@@ -107,6 +108,10 @@ int getProcStatusValue(const char* key)
 
 int main(int argc, char* argv[])
 {
+
+  TimeProfiler::init();
+  TimeProfiler::start(INTER_OVERALL);
+
   // print information
   fprintf( stdout, "\n" );
   fprintf( stdout, "VVCSoftware: VTM Encoder Version %s ", VTM_VERSION );
@@ -411,6 +416,9 @@ int main(int argc, char* argv[])
          (endClock - startClock) * 1.0 / CLOCKS_PER_SEC,
          encTime / 1000.0);
 #endif
+
+  TimeProfiler::stop(INTER_OVERALL);
+  TimeProfiler::report();
 
   return 0;
 }
