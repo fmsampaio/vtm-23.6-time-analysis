@@ -109,8 +109,10 @@ int getProcStatusValue(const char* key)
 int main(int argc, char* argv[])
 {
 
+#if ENABLE_TIME_PROFILE
   TimeProfiler::init();
   TimeProfiler::start(ENCODER_OVERALL);
+#endif
 
   // print information
   fprintf( stdout, "\n" );
@@ -417,8 +419,10 @@ int main(int argc, char* argv[])
          encTime / 1000.0);
 #endif
 
+#if ENABLE_TIME_PROFILE
   TimeProfiler::stop(ENCODER_OVERALL);
   TimeProfiler::report();
+#endif
 
   return 0;
 }

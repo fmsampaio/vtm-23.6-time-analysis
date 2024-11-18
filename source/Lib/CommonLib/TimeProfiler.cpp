@@ -2,14 +2,18 @@
 
 std::vector<time_point> TimeProfiler::previous;
 std::vector<duration> TimeProfiler::durations;
+std::vector<int> TimeProfiler::calls;
+
 std::map<STAGE, std::string> TimeProfiler::stageToString;
 
 void TimeProfiler::init()  {
     durations.resize( NUM_STAGES );
     previous.resize( NUM_STAGES );
-    
+    calls.resize( NUM_STAGES );
+
     for( size_t i = 0; i < NUM_STAGES; ++i ) {
         durations[i] = durations[i].zero();
+        calls[i] = 0;
     }
 
     stageToString[QT_LEVEL_0]= "QT_0";
@@ -28,13 +32,19 @@ void TimeProfiler::start( STAGE s ) {
 void TimeProfiler::stop( STAGE s ) {
     time_point now = clock_s::now();
     durations[s] += ( now - previous[s] );
+    calls[s] ++;
 }
 
 void TimeProfiler::report() {
-    std::cout << "\n\nTIME PROFILING REPORT" << std::endl;
-    std::cout << "STAGE\tTime(ms)\n";
+    std::ofstream reportFp;
+    reportFp.open("time_profie.csv");
+
+    reportFp << "Stage;Calls;Time(ms);TimePerCall(ms)\n";
     for( size_t i = 0; i < NUM_STAGES; ++i ) {
         STAGE s = (STAGE) i;
-        std::cout << stageToString[s] << "\t" << (durations[i].count()) << std::endl;
+        double duration = durations[i].count();
+        reportFp << stageToString[s] << ";" << calls[s] << ";" << duration << ";" << (duration / calls[i]) << std::endl;
     }
+    reportFp.close();
+    
 }

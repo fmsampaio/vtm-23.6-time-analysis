@@ -4,6 +4,7 @@
 #include <string.h>
 #include <time.h>
 #include <iostream>
+#include <fstream>
 
 #include <stack>
 #include <array>
@@ -33,6 +34,7 @@ class TimeProfiler {
   public:
     static std::vector<time_point> previous;
     static std::vector<duration> durations;
+    static std::vector<int> calls;
     static std::map<STAGE, std::string> stageToString;
 
     static void init();

@@ -3391,10 +3391,12 @@ void EncCu::xCheckRDCostIBCMode(CodingStructure *&tempCS, CodingStructure *&best
 void EncCu::xCheckRDCostInter( CodingStructure *&tempCS, CodingStructure *&bestCS, Partitioner &partitioner, const EncTestMode& encTestMode )
 {
 
+#if ENABLE_TIME_PROFILE
   TimeProfiler::start(INTER_OVERALL);
   
   STAGE interStage = (STAGE) partitioner.currQtDepth;
   TimeProfiler::start(interStage);
+#endif
   
 
   const EncType encType = dynamic_cast<EncLib*>(m_pcEncCfg)->getEncType();
@@ -3582,8 +3584,10 @@ void EncCu::xCheckRDCostInter( CodingStructure *&tempCS, CodingStructure *&bestC
     xCalDebCost( *bestCS, partitioner );
   }
 
+#if ENABLE_TIME_PROFILE
   TimeProfiler::stop(interStage);
   TimeProfiler::stop(INTER_OVERALL);
+#endif
 
 }
 
